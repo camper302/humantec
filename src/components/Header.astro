@@ -280,8 +280,59 @@ const currentLanguageOption =
       </details>
     </div>
 
+    <div class="ml-auto flex items-center md:hidden" aria-label="언어 전환 (모바일)">
+      <details class="group relative">
+        <summary
+          class="inline-flex cursor-pointer list-none items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+          aria-label="언어 선택"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="opacity-70">
+            <path
+              d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Z"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+            <path d="M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          <span class="text-sm font-medium">{currentLanguageOption.locale.toUpperCase()}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="opacity-70">
+            <path
+              d="M7 10l5 5 5-5"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </summary>
+
+        <div class="absolute right-0 top-full mt-2 w-44 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)]">
+          <div class="px-4 py-3">
+            <p class="text-xs font-medium text-neutral-600">Language</p>
+          </div>
+          <div class="grid gap-1 px-2 pb-2">
+            {languageOptions.map((o) => (
+              <a
+                class:list={[
+                  "rounded-xl px-3 py-2 text-sm hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20",
+                  o.locale === currentLang ? "bg-neutral-900 text-white" : "text-neutral-900",
+                ]}
+                href={o.href}
+                aria-current={o.locale === currentLang ? "page" : undefined}
+              >
+                <span class="font-medium">{o.locale.toUpperCase()}</span>
+                <span class:list={["ml-2", o.locale === currentLang ? "text-white/80" : "text-neutral-600"]}>
+                  {o.label}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </details>
+    </div>
+
     <button
-      class="ml-auto inline-flex items-center justify-center rounded-md border border-neutral-200 bg-white px-2 py-2 text-sm text-neutral-700 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20 md:hidden"
+      class="inline-flex items-center justify-center rounded-md border border-neutral-200 bg-white px-2 py-2 text-sm text-neutral-700 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20 md:hidden"
       type="button"
       aria-label="메뉴 열기"
       aria-expanded="false"
