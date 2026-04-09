@@ -1,19 +1,22 @@
 ---
-// [기능] About Us 단일 페이지 스토리텔링(롱페이지)
+// [기능] About Us: 기업 신뢰도 구축(Trust) 중심 페이지
 // [원리]
-// - 사용자가 스크롤로 자연스럽게 서사를 따라가도록(CEO → 연혁 → 경영이념 → 오시는 길) 섹션을 세로로 배치
-// - 상단에 앵커 링크(목차)를 제공해 특정 섹션으로 즉시 점프 가능
-// - 섹션은 1px 테두리/화이트 배경을 기본으로, 내부는 Bento Grid 철학(명확한 구획)으로 정보 밀도를 제어
+// - 랜딩이 “행동(문의/전환)” 중심이라면, About Us는 “정통성/파트너십 역사/경영 철학”으로 확신을 제공
+// - 긴 문단을 읽기 좋은 매거진 톤으로 구성하고, 핵심 섹션(CEO/History/Philosophy)을 앵커로 빠르게 이동
+// - 타임라인은 구체 날짜/사건을 고정해 ‘검증 가능한 히스토리’로 신뢰를 강화
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout lang="ko" title="휴먼텍 | About Us" description="휴먼텍 회사 소개 (CEO 인사말, 연혁, 경영이념, 오시는 길)">
+<BaseLayout lang="ko" title="휴먼텍 | About Us" description="휴먼텍 회사 소개 (CEO 인사말, 연혁, 경영이념)">
   <main class="mx-auto w-full max-w-5xl px-6 py-14 sm:py-16">
+    {/* [기능] 섹션 화면 핏(Full-fit) */}
+    {/* [원리] 헤더 높이를 고려해 각 섹션을 dvh 기준으로 최소 높이 확보 */}
+    <div class="h-0 w-0" style="--section-min: calc(100dvh - 56px);"></div>
     <header class="flex flex-col gap-3">
       <p class="text-sm text-neutral-600">About Us</p>
-      <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">신뢰로 증명하는 파트너십</h1>
+      <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">기술로 신뢰를 쌓는 파트너</h1>
       <p class="max-w-2xl text-neutral-700">
-        휴먼텍의 이야기와 운영 철학을 한 흐름으로 읽을 수 있도록 구성했습니다.
+        휴먼텍의 정통성과 파트너십의 역사를 구체적으로 기록해, 고객사 의사결정에 확신을 더합니다.
       </p>
     </header>
 
@@ -31,134 +34,117 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         >
           경영이념
         </a>
-        <a class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50" href="#location">
-          오시는 길
-        </a>
       </div>
     </div>
 
-    <section id="ceo" class="mt-10 scroll-mt-24">
+    <section id="ceo" class="mt-10 flex min-h-(--section-min) items-center scroll-mt-24">
+      <div class="w-full">
       <div class="rounded-2xl border border-neutral-200 bg-white p-8">
         <div class="flex flex-col gap-2">
-          <p class="text-xs font-medium text-neutral-600">Chapter 01</p>
-          <h2 class="text-xl font-semibold tracking-tight">CEO 인사말</h2>
-          <p class="max-w-2xl text-neutral-700">
-            메시지는 “무엇을 팔 것인가”보다 “어떻게 신뢰를 쌓을 것인가”를 먼저 말해야 합니다.
-          </p>
+          <p class="text-xs font-medium text-neutral-600">CEO Greetings</p>
+          <h2 class="text-xl font-semibold tracking-tight">대표이사 인사말</h2>
         </div>
 
-        <div class="mt-6 grid gap-4 sm:grid-cols-2">
-          <div class="rounded-2xl border border-neutral-200 p-6">
-            <p class="text-sm font-medium text-neutral-900">한 줄 요약</p>
-            <p class="mt-2 text-sm text-neutral-700">기술 영업의 본질은 문제를 정확히 정의하고 끝까지 책임지는 것입니다.</p>
+        <div class="mt-6 grid gap-6 lg:grid-cols-5">
+          <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-3">
+            <p class="text-sm font-medium text-neutral-900">비전</p>
+            <p class="mt-3 text-sm leading-7 text-neutral-700">
+              휴먼텍은 글로벌 선도 기업의 소재·부자재·설비를 국내 PCB 산업에 정밀하게 연결합니다. 제안의 근거를
+              명확히 하고, 납기와 품질을 끝까지 책임지는 방식으로 파트너십을 구축해 왔습니다.
+            </p>
+            <p class="mt-4 text-sm leading-7 text-neutral-700">
+              앞으로도 기술 전문성과 글로벌 네트워크를 기반으로 고객사의 공정 효율과 품질 안정화를 돕는 솔루션
+              파트너가 되겠습니다.
+            </p>
           </div>
-          <div class="rounded-2xl border border-neutral-200 p-6">
+
+          <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-2">
             <p class="text-sm font-medium text-neutral-900">핵심 약속</p>
-            <ul class="mt-2 grid gap-2 text-sm text-neutral-700">
+            <ul class="mt-3 grid gap-2 text-sm text-neutral-700">
               <li class="flex gap-2">
                 <span class="mt-1 h-1.5 w-1.5 rounded-full bg-neutral-400"></span>
-                <span>정보의 투명성</span>
+                <span>기술 전문성: 데이터와 근거 기반의 제안</span>
               </li>
               <li class="flex gap-2">
                 <span class="mt-1 h-1.5 w-1.5 rounded-full bg-neutral-400"></span>
-                <span>정확한 납기와 커뮤니케이션</span>
+                <span>고객 신뢰: 투명한 커뮤니케이션과 책임</span>
               </li>
               <li class="flex gap-2">
                 <span class="mt-1 h-1.5 w-1.5 rounded-full bg-neutral-400"></span>
-                <span>품질 이슈의 빠른 원인 규명</span>
+                <span>글로벌 네트워크: 검증된 파트너 라인업</span>
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </section>
-
-    <section id="history" class="mt-6 scroll-mt-24">
-      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
-        <div class="flex flex-col gap-2">
-          <p class="text-xs font-medium text-neutral-600">Chapter 02</p>
-          <h2 class="text-xl font-semibold tracking-tight">연혁</h2>
-          <p class="max-w-2xl text-neutral-700">
-            성장의 순간을 “연도”가 아니라 “문제 해결의 기록”으로 남깁니다.
-          </p>
-        </div>
-
-        <div class="mt-6 grid gap-4 md:grid-cols-3">
-          <div class="rounded-2xl border border-neutral-200 p-6">
-            <p class="text-sm font-medium text-neutral-900">초기</p>
-            <p class="mt-2 text-sm text-neutral-700">핵심 파트너 라인업 구축</p>
-          </div>
-          <div class="rounded-2xl border border-neutral-200 p-6">
-            <p class="text-sm font-medium text-neutral-900">확장</p>
-            <p class="mt-2 text-sm text-neutral-700">제품군/고객사 확장 및 운영 표준화</p>
-          </div>
-          <div class="rounded-2xl border border-neutral-200 p-6">
-            <p class="text-sm font-medium text-neutral-900">현재</p>
-            <p class="mt-2 text-sm text-neutral-700">데이터 기반 지원 체계 고도화</p>
-          </div>
-        </div>
       </div>
     </section>
 
-    <section id="philosophy" class="mt-6 scroll-mt-24">
+    <section id="history" class="mt-6 flex min-h-(--section-min) items-center scroll-mt-24">
+      <div class="w-full">
       <div class="rounded-2xl border border-neutral-200 bg-white p-8">
         <div class="flex flex-col gap-2">
-          <p class="text-xs font-medium text-neutral-600">Chapter 03</p>
+          <p class="text-xs font-medium text-neutral-600">History (Timeline)</p>
+          <h2 class="text-xl font-semibold tracking-tight">연혁</h2>
+          <p class="max-w-2xl text-neutral-700">검증 가능한 이정표를 기반으로 파트너십의 역사를 쌓아왔습니다.</p>
+        </div>
+
+        <ol class="mt-6 grid gap-3">
+          <li class="rounded-2xl border border-neutral-200 p-5">
+            <p class="text-xs font-medium text-neutral-600">2009.07</p>
+            <p class="mt-1 text-sm font-medium text-neutral-900">휴먼텍 설립 (Established)</p>
+          </li>
+          <li class="rounded-2xl border border-neutral-200 p-5">
+            <p class="text-xs font-medium text-neutral-600">2010.03</p>
+            <p class="mt-1 text-sm font-medium text-neutral-900">Panasonic(Japan) 전용 대리점 계약 체결</p>
+          </li>
+          <li class="rounded-2xl border border-neutral-200 p-5">
+            <p class="text-xs font-medium text-neutral-600">2010.04</p>
+            <p class="mt-1 text-sm font-medium text-neutral-900">Cedal Equipment(Italy) 대리점 계약 체결</p>
+          </li>
+          <li class="rounded-2xl border border-neutral-200 p-5">
+            <p class="text-xs font-medium text-neutral-600">2013.07</p>
+            <p class="mt-1 text-sm font-medium text-neutral-900">Newccess(China) 대리점 계약 체결</p>
+          </li>
+          <li class="rounded-2xl border border-neutral-200 p-5">
+            <p class="text-xs font-medium text-neutral-600">2022.07</p>
+            <p class="mt-1 text-sm font-medium text-neutral-900">(주)휴먼텍 법인 전환 및 확장</p>
+          </li>
+        </ol>
+      </div>
+      </div>
+    </section>
+
+    <section id="philosophy" class="mt-6 flex min-h-(--section-min) items-center scroll-mt-24">
+      <div class="w-full">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Philosophy</p>
           <h2 class="text-xl font-semibold tracking-tight">경영이념</h2>
-          <p class="max-w-2xl text-neutral-700">
-            의사결정 기준을 문장으로 고정해, 규모가 커져도 품질과 속도를 잃지 않게 합니다.
-          </p>
+          <p class="max-w-2xl text-neutral-700">기술 전문성·고객 신뢰·글로벌 네트워크를 운영 원칙으로 삼습니다.</p>
         </div>
 
         <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div class="rounded-2xl border border-neutral-200 p-6">
-            <p class="text-sm font-medium text-neutral-900">정확</p>
-            <p class="mt-2 text-sm text-neutral-700">근거 기반의 제안과 검증</p>
+            <p class="text-sm font-medium text-neutral-900">기술 전문성</p>
+            <p class="mt-2 text-sm leading-7 text-neutral-700">
+              소재/부자재/설비의 특성과 공정 요구사항을 이해하고, 데이터 기반으로 최적안을 제시합니다.
+            </p>
           </div>
           <div class="rounded-2xl border border-neutral-200 p-6">
-            <p class="text-sm font-medium text-neutral-900">일관</p>
-            <p class="mt-2 text-sm text-neutral-700">상황이 변해도 원칙은 유지</p>
+            <p class="text-sm font-medium text-neutral-900">고객 신뢰</p>
+            <p class="mt-2 text-sm leading-7 text-neutral-700">
+              납기·품질·커뮤니케이션을 “프로세스”로 관리하고, 문제 발생 시 빠르게 원인을 규명합니다.
+            </p>
           </div>
           <div class="rounded-2xl border border-neutral-200 p-6">
-            <p class="text-sm font-medium text-neutral-900">책임</p>
-            <p class="mt-2 text-sm text-neutral-700">결과에 대한 소유권</p>
+            <p class="text-sm font-medium text-neutral-900">글로벌 네트워크</p>
+            <p class="mt-2 text-sm leading-7 text-neutral-700">
+              검증된 글로벌 파트너와의 협업을 통해 국내 시장에 안정적인 공급·지원 체계를 제공합니다.
+            </p>
           </div>
         </div>
       </div>
-    </section>
-
-    <section id="location" class="mt-6 scroll-mt-24">
-      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
-        <div class="flex flex-col gap-2">
-          <p class="text-xs font-medium text-neutral-600">Chapter 04</p>
-          <h2 class="text-xl font-semibold tracking-tight">오시는 길</h2>
-          <p class="max-w-2xl text-neutral-700">주소/지도 연동은 다음 단계에서 연결합니다.</p>
-        </div>
-
-        <div class="mt-6 grid gap-4 lg:grid-cols-5">
-          <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-3">
-            <p class="text-sm font-medium text-neutral-900">지도</p>
-            <div class="mt-3 aspect-video w-full rounded-xl border border-dashed border-neutral-200 bg-neutral-50"></div>
-            <p class="mt-3 text-sm text-neutral-700">지도 위젯 영역 (예: Google/Naver/Kakao)</p>
-          </div>
-          <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-2">
-            <p class="text-sm font-medium text-neutral-900">연락처</p>
-            <dl class="mt-3 grid gap-3 text-sm">
-              <div>
-                <dt class="text-neutral-600">주소</dt>
-                <dd class="mt-1 text-neutral-900">내용을 준비 중입니다.</dd>
-              </div>
-              <div>
-                <dt class="text-neutral-600">전화</dt>
-                <dd class="mt-1 text-neutral-900">내용을 준비 중입니다.</dd>
-              </div>
-              <div>
-                <dt class="text-neutral-600">이메일</dt>
-                <dd class="mt-1 text-neutral-900">내용을 준비 중입니다.</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
       </div>
     </section>
   </main>

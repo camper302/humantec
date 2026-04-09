@@ -1,16 +1,339 @@
 ---
+// [기능] 홈(랜딩) 페이지: 섹션 기반 스토리/사업/권위(파트너) 구성
+// [원리]
+// - Section 0: 한 문장 카피 + 서브카피 + 비주얼(오버레이) + CTA로 첫 전환을 만든다
+// - Section 1: 3대 사업 분야를 카드로 요약하고, hover 시 “확장 반응(Apple 스타일)”로 집중을 유도한다
+// - Section 2: 글로벌 파트너 로고 그리드로 권위를 구축하고, grayscale → color hover로 신뢰감을 강화한다
+// - Section 3: 문의(액션) 섹션으로 전환을 만들고, 즉시 제출 가능한 폼을 제공한다
+// - Section 4: 판교 오피스 위치/주소를 제공해 오프라인 신뢰와 접근성을 높인다
+// - Footer: 법인 정보/공식 연락처로 신뢰 신호를 마무리한다
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout lang="ko" title="휴먼텍" description="휴먼텍 쇼케이스 홈">
-  <main class="mx-auto w-full max-w-5xl px-6 py-16">
-    <div class="rounded-2xl border border-neutral-200 bg-white p-10">
-      <p class="text-sm text-neutral-600">HUMANTEC</p>
-      <h1 class="mt-3 text-3xl font-semibold tracking-tight">휴먼텍 쇼케이스</h1>
-      <p class="mt-3 max-w-2xl text-neutral-700">
-        Vercel 스타일의 미니멀 UI 기반으로 다국어(i18n)와 Client Portal을 단계적으로 구축합니다.
-      </p>
-    </div>
+<BaseLayout lang="ko" title="휴먼텍" description="High-Tech Materials & Equipment Partner for Future Electronics">
+  <main class="mx-auto w-full max-w-6xl px-6 py-6 sm:py-8">
+    {/* [기능] 섹션 화면 핏(Full-fit) */}
+    {/* [원리]
+      - 헤더 높이(약 56px)를 고려해 각 섹션은 최소 높이를 dvh 기준으로 확보
+      - 모바일/태블릿에서 “한 화면에 꽉 차는” 인상을 주도록 섹션 내부는 중앙 정렬 중심으로 구성 */}
+    <div class="h-0 w-0" style="--section-min: calc(100dvh - 56px);"></div>
+    <!-- Section 0 -->
+    <section class="relative flex min-h-(--section-min) items-center overflow-hidden rounded-3xl border border-neutral-200 bg-white">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_20%,rgba(0,0,0,0.06),transparent_65%)]"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.15),rgba(255,255,255,1))]"></div>
+        <div class="absolute -right-20 top-10 h-72 w-72 rounded-full bg-neutral-200/40 blur-2xl"></div>
+        <div class="absolute -left-24 bottom-8 h-72 w-72 rounded-full bg-neutral-200/40 blur-2xl"></div>
+      </div>
+
+      <div class="relative grid w-full gap-8 px-8 py-12 sm:px-10 sm:py-14 lg:grid-cols-12">
+        <div class="lg:col-span-7">
+          <p class="text-sm text-neutral-600">HUMANTEC</p>
+          <h1 class="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">
+            High-Tech Materials & Equipment Partner for Future Electronics
+          </h1>
+          <p class="mt-4 max-w-2xl text-neutral-700">
+            글로벌 기술력을 국내 PCB 산업에 연결하는 최적의 솔루션 파트너, 휴먼텍입니다.
+          </p>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <a
+              class="inline-flex items-center justify-center rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+              href="/ko/products"
+            >
+              제품군 살펴보기
+            </a>
+            <a
+              class="inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white px-5 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+              href="/ko/about"
+            >
+              About Us
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="rounded-2xl border border-neutral-200 bg-white/60 p-4">
+            <div class="aspect-video w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
+              <div class="h-full w-full bg-[linear-gradient(135deg,rgba(0,0,0,0.04),transparent_60%)]"></div>
+            </div>
+            <p class="mt-3 text-xs text-neutral-600">
+              Visual placeholder: 고해상도 PCB 레이어 이미지 또는 정밀 장비 작동 이미지(반투명 오버레이)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1 -->
+    <section class="mt-8 flex min-h-(--section-min) items-center">
+      <div class="w-full">
+      <header class="flex flex-col gap-2">
+        <p class="text-sm text-neutral-600">Core Business Fields</p>
+        <h2 class="text-2xl font-semibold tracking-tight">3대 사업 분야</h2>
+        <p class="max-w-2xl text-neutral-700">
+          직관적인 3분할 카드로 핵심 라인업을 요약합니다. 카드를 가리키면 확장 반응으로 집중도를 높입니다.
+        </p>
+      </header>
+
+      <div class="mt-6 flex flex-col gap-4 md:flex-row md:gap-3">
+        <a
+          class="group flex-1 rounded-3xl border border-neutral-200 bg-white p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_30px_80px_-60px_rgba(0,0,0,0.35)] md:hover:flex-[1.35]"
+          href="/ko/products?category=pcb"
+        >
+          <div class="flex h-full flex-col">
+            <p class="text-xs font-medium text-neutral-600">Materials</p>
+            <h3 class="mt-2 text-xl font-semibold tracking-tight">PCB 소재</h3>
+            <p class="mt-2 text-sm text-neutral-700">고사양 PCB 제작의 핵심이 되는 고기능 원재료 라인업.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">CCL</span>
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">Network IC Substrate</span>
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">Copper Foil</span>
+            </div>
+            <div class="mt-auto pt-6 text-sm font-medium text-neutral-900">
+              자세히 보기 <span class="ml-1 opacity-60 group-hover:opacity-100">→</span>
+            </div>
+          </div>
+        </a>
+
+        <a
+          class="group flex-1 rounded-3xl border border-neutral-200 bg-white p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_30px_80px_-60px_rgba(0,0,0,0.35)] md:hover:flex-[1.35]"
+          href="/ko/products?category=sub-materials"
+        >
+          <div class="flex h-full flex-col">
+            <p class="text-xs font-medium text-neutral-600">Consumables</p>
+            <h3 class="mt-2 text-xl font-semibold tracking-tight">PCB 부자재 및 소모품</h3>
+            <p class="mt-2 text-sm text-neutral-700">생산 정밀도와 공정 효율을 높이는 최상급 소모성 자재.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">Drilling Board</span>
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">Entry Back-up</span>
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">Cleaning Rollers</span>
+            </div>
+            <div class="mt-auto pt-6 text-sm font-medium text-neutral-900">
+              자세히 보기 <span class="ml-1 opacity-60 group-hover:opacity-100">→</span>
+            </div>
+          </div>
+        </a>
+
+        <a
+          class="group flex-1 rounded-3xl border border-neutral-200 bg-white p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_30px_80px_-60px_rgba(0,0,0,0.35)] md:hover:flex-[1.35]"
+          href="/ko/products?category=machine"
+        >
+          <div class="flex h-full flex-col">
+            <p class="text-xs font-medium text-neutral-600">Equipment</p>
+            <h3 class="mt-2 text-xl font-semibold tracking-tight">공정 및 설비</h3>
+            <p class="mt-2 text-sm text-neutral-700">
+              공정 자동화와 오염 방지를 위한 글로벌 선두 기업의 설비 솔루션.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">Cleaning Machine</span>
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">Auto Stack-up</span>
+              <span class="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-700">Process Control</span>
+            </div>
+            <div class="mt-auto pt-6 text-sm font-medium text-neutral-900">
+              자세히 보기 <span class="ml-1 opacity-60 group-hover:opacity-100">→</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="mt-8 flex min-h-(--section-min) items-center">
+      <div class="w-full">
+      <header class="flex flex-col gap-2">
+        <p class="text-sm text-neutral-600">Authority</p>
+        <h2 class="text-2xl font-semibold tracking-tight">Global Partners</h2>
+        <p class="max-w-2xl text-neutral-700">
+          파트너사의 로고는 기본 grayscale로, 가리키면 컬러로 전환되어 브랜드 권위를 강조합니다.
+        </p>
+      </header>
+
+      <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        {["Panasonic", "Teknek", "JCC", "Newccess", "Cedatec"].map((name) => (
+          <div class="group rounded-2xl border border-neutral-200 bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_30px_80px_-70px_rgba(0,0,0,0.35)]">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-medium text-neutral-600">Partner</p>
+              <span class="text-[10px] text-neutral-500">Brand</span>
+            </div>
+            <div class="mt-6 flex items-center justify-center rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-5">
+              <span class="text-sm font-semibold tracking-tight text-neutral-400 opacity-80 transition-colors duration-200 group-hover:text-neutral-900 group-hover:opacity-100">
+                {name}
+              </span>
+            </div>
+            <p class="mt-3 text-xs text-neutral-600">Logo placeholder</p>
+          </div>
+        ))}
+      </div>
+      </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section id="contact" class="mt-8 flex min-h-(--section-min) items-center scroll-mt-24">
+      <div class="w-full">
+      <header class="flex flex-col gap-2">
+        <p class="text-sm text-neutral-600">Focus on Action</p>
+        <h2 class="text-2xl font-semibold tracking-tight">문의하기</h2>
+        <p class="max-w-2xl text-neutral-700">관심 제품군과 요구사항을 남겨주시면 빠르게 연락드리겠습니다.</p>
+      </header>
+
+      <div class="mt-6 grid gap-3 lg:grid-cols-5">
+        <div class="rounded-3xl border border-neutral-200 bg-white p-7 lg:col-span-3">
+          <form class="grid gap-4" method="post" action="#">
+            <div class="grid gap-2 sm:grid-cols-2">
+              <label class="grid gap-1 text-sm">
+                <span class="text-neutral-700">회사명</span>
+                <input
+                  class="h-11 rounded-xl border border-neutral-200 bg-white px-4 text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-900/20"
+                  name="company"
+                  placeholder="예) HUMANTEC 고객사"
+                  required
+                />
+              </label>
+              <label class="grid gap-1 text-sm">
+                <span class="text-neutral-700">담당자</span>
+                <input
+                  class="h-11 rounded-xl border border-neutral-200 bg-white px-4 text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-900/20"
+                  name="name"
+                  placeholder="예) 홍길동"
+                  required
+                />
+              </label>
+            </div>
+
+            <div class="grid gap-2 sm:grid-cols-2">
+              <label class="grid gap-1 text-sm">
+                <span class="text-neutral-700">이메일</span>
+                <input
+                  class="h-11 rounded-xl border border-neutral-200 bg-white px-4 text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-900/20"
+                  name="email"
+                  type="email"
+                  placeholder="name@company.com"
+                  required
+                />
+              </label>
+              <label class="grid gap-1 text-sm">
+                <span class="text-neutral-700">관심 분야</span>
+                <select
+                  class="h-11 rounded-xl border border-neutral-200 bg-white px-4 text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-900/20"
+                  name="interest"
+                  required
+                >
+                  <option value="">선택</option>
+                  <option value="materials">PCB 소재</option>
+                  <option value="consumables">부자재/소모품</option>
+                  <option value="equipment">공정/설비</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="grid gap-1 text-sm">
+              <span class="text-neutral-700">문의 내용</span>
+              <textarea
+                class="min-h-32 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-900/20"
+                name="message"
+                placeholder="요구 스펙/수량/납기/적용 공정 등을 알려주세요."
+                required
+              ></textarea>
+            </label>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <button
+                class="inline-flex items-center justify-center rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+                type="submit"
+              >
+                문의 제출
+              </button>
+              <p class="text-xs text-neutral-600">
+                현재는 데모 폼입니다. 다음 단계에서 Supabase/메일 연동으로 실제 전송을 연결합니다.
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <div class="rounded-3xl border border-neutral-200 bg-white p-7 lg:col-span-2">
+          <p class="text-sm font-medium text-neutral-900">빠른 연결</p>
+          <div class="mt-4 grid gap-3">
+            <div class="rounded-2xl border border-neutral-200 p-5">
+              <p class="text-xs font-medium text-neutral-600">이메일</p>
+              <p class="mt-2 text-sm text-neutral-900">내용을 준비 중입니다.</p>
+            </div>
+            <div class="rounded-2xl border border-neutral-200 p-5">
+              <p class="text-xs font-medium text-neutral-600">전화</p>
+              <p class="mt-2 text-sm text-neutral-900">내용을 준비 중입니다.</p>
+            </div>
+            <a
+              class="rounded-2xl border border-neutral-200 p-5 text-sm text-neutral-900 hover:bg-neutral-50"
+              href="/ko/products"
+            >
+              제품군 먼저 보기 →
+            </a>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section id="office" class="mt-8 flex min-h-(--section-min) items-center scroll-mt-24">
+      <div class="w-full">
+      <header class="flex flex-col gap-2">
+        <p class="text-sm text-neutral-600">Location</p>
+        <h2 class="text-2xl font-semibold tracking-tight">판교 오피스</h2>
+        <p class="max-w-2xl text-neutral-700">지도/주소 정보를 제공해 방문 및 상담 흐름을 단순화합니다.</p>
+      </header>
+
+      <div class="mt-6 grid gap-3 lg:grid-cols-5">
+        <div class="rounded-3xl border border-neutral-200 bg-white p-7 lg:col-span-3">
+          <div class="aspect-video w-full overflow-hidden rounded-2xl border border-dashed border-neutral-200 bg-neutral-50">
+            <div class="h-full w-full bg-[linear-gradient(135deg,rgba(0,0,0,0.04),transparent_60%)]"></div>
+          </div>
+          <p class="mt-3 text-xs text-neutral-600">
+            지도 API 권장: Google Map 또는 Kakao Map (키/도메인 등록 필요). 현재는 플레이스홀더입니다.
+          </p>
+        </div>
+        <div class="rounded-3xl border border-neutral-200 bg-white p-7 lg:col-span-2">
+          <p class="text-sm font-medium text-neutral-900">주소</p>
+          <p class="mt-3 text-sm leading-7 text-neutral-700">
+            (주소를 입력해주세요) <br />
+            (건물명/층/호 등)
+          </p>
+
+          <div class="mt-6 grid gap-2">
+            <a class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-900 hover:bg-neutral-50" href="#">
+              Google Map 열기 →
+            </a>
+            <a class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-900 hover:bg-neutral-50" href="#">
+              Kakao Map 열기 →
+            </a>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <footer class="mt-8 rounded-3xl border border-neutral-200 bg-white px-8 py-10">
+      <div class="grid gap-8 md:grid-cols-3">
+        <div>
+          <p class="text-sm font-semibold tracking-tight text-neutral-900">HUMANTEC</p>
+          <p class="mt-2 text-sm text-neutral-700">High-Tech Materials & Equipment Partner for Future Electronics</p>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-neutral-600">법인 정보</p>
+          <p class="mt-2 text-sm text-neutral-900">㈜휴먼텍</p>
+          <p class="mt-1 text-sm text-neutral-700">사업자/대표/주소 정보는 확정 후 반영합니다.</p>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-neutral-600">연락처</p>
+          <p class="mt-2 text-sm text-neutral-900">Email / Phone</p>
+          <p class="mt-1 text-sm text-neutral-700">내용을 준비 중입니다.</p>
+        </div>
+      </div>
+      <div class="mt-8 border-t border-neutral-200 pt-6 text-xs text-neutral-600">
+        © {new Date().getFullYear()} HUMANTEC. All rights reserved.
+      </div>
+    </footer>
   </main>
 </BaseLayout>
 
