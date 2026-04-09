@@ -36,8 +36,21 @@ const currentPathname = Astro.url?.pathname || "/";
 const currentLang = normalizeLang(lang);
 
 const topMenu = {
-  about: { href: `/${currentLang}/about`, label: "About" },
   support: { href: `/${currentLang}/support`, label: "Support" },
+};
+
+// [기능] About Us 드롭다운 메뉴 구성
+// [원리] 통합 About 페이지 외에 세부 주제로 진입할 수 있도록 하위 라우트를 제공 (파일 기반 라우팅 확장성 확보)
+const aboutMenu = {
+  href: `/${currentLang}/about`,
+  label: "About Us",
+  items: [
+    { href: `/${currentLang}/about/ceo-message`, label: "CEO 인사말" },
+    { href: `/${currentLang}/about/partners`, label: "파트너" },
+    { href: `/${currentLang}/about/history`, label: "연혁" },
+    { href: `/${currentLang}/about/management-philosophy`, label: "경영이념" },
+    { href: `/${currentLang}/about/location`, label: "오시는 길" },
+  ],
 };
 
 // [기능] Products 드롭다운 메뉴 구성
@@ -77,12 +90,66 @@ const currentLanguageOption =
 
     <nav class="hidden flex-1 items-center justify-center md:flex" aria-label="주요 메뉴">
       <div class="flex items-center gap-1 rounded-full border border-neutral-200 bg-white px-1 py-1">
-        <a
-          class="rounded-full px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
-          href={topMenu.about.href}
-        >
-          {topMenu.about.label}
-        </a>
+        <div class="relative group">
+          <button
+            class="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            data-about-trigger
+          >
+            <span>{aboutMenu.label}</span>
+            <svg
+              class="mt-px opacity-70"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M7 10l5 5 5-5"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <div
+            class="pointer-events-none absolute left-1/2 top-full hidden w-64 -translate-x-1/2 pt-2 group-hover:block group-focus-within:block"
+            data-about-panel
+          >
+            <div
+              class="pointer-events-auto overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)]"
+              role="menu"
+              aria-label="About Us 하위 메뉴"
+            >
+              <div class="px-4 py-3">
+                <p class="text-xs font-medium text-neutral-600">Explore</p>
+              </div>
+              <div class="grid gap-1 px-2 pb-2">
+                <a
+                  class="rounded-xl px-3 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+                  href={aboutMenu.href}
+                  role="menuitem"
+                >
+                  전체 보기
+                </a>
+                {aboutMenu.items.map((item) => (
+                  <a
+                    class="rounded-xl px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+                    href={item.href}
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="relative group">
           <button
@@ -257,12 +324,39 @@ const currentLanguageOption =
 
   <div class="px-4 py-4">
     <nav class="grid gap-2" aria-label="모바일 메뉴">
-      <a
-        class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
-        href={topMenu.about.href}
-      >
-        {topMenu.about.label}
-      </a>
+      <details class="rounded-2xl border border-neutral-200 p-3">
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+          aria-label="About Us 메뉴 펼치기"
+        >
+          <span>{aboutMenu.label}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="opacity-70">
+            <path
+              d="M7 10l5 5 5-5"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </summary>
+        <div class="mt-2 grid gap-1">
+          <a
+            class="rounded-xl px-3 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+            href={aboutMenu.href}
+          >
+            전체 보기
+          </a>
+          {aboutMenu.items.map((item) => (
+            <a
+              class="rounded-xl px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+              href={item.href}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </details>
 
       <details class="rounded-2xl border border-neutral-200 p-3">
         <summary
@@ -388,6 +482,8 @@ const currentLanguageOption =
 
     // [기능] 태블릿/터치 환경 Products 드롭다운 토글
     // [원리] hover가 없는 환경(pointer coarse)에서는 클릭으로 열고, 바깥 클릭/ESC로 닫기
+    const aboutTrigger = document.querySelector("[data-about-trigger]");
+    const aboutPanel = document.querySelector("[data-about-panel]");
     const productsTrigger = document.querySelector("[data-products-trigger]");
     const productsPanel = document.querySelector("[data-products-panel]");
 
@@ -415,6 +511,27 @@ const currentLanguageOption =
       else openProducts();
     }
 
+    function openAbout() {
+      if (!aboutTrigger || !aboutPanel) return;
+      aboutTrigger.setAttribute("aria-expanded", "true");
+      aboutPanel.classList.remove("hidden");
+      aboutPanel.classList.add("block");
+    }
+
+    function closeAbout() {
+      if (!aboutTrigger || !aboutPanel) return;
+      aboutTrigger.setAttribute("aria-expanded", "false");
+      aboutPanel.classList.add("hidden");
+      aboutPanel.classList.remove("block");
+    }
+
+    function toggleAbout() {
+      if (!aboutTrigger || !aboutPanel) return;
+      const expanded = aboutTrigger.getAttribute("aria-expanded") === "true";
+      if (expanded) closeAbout();
+      else openAbout();
+    }
+
     if (isCoarsePointer && productsTrigger && productsPanel) {
       productsTrigger.addEventListener("click", (e) => {
         e.preventDefault();
@@ -432,6 +549,26 @@ const currentLanguageOption =
 
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeProducts();
+      });
+    }
+
+    if (isCoarsePointer && aboutTrigger && aboutPanel) {
+      aboutTrigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleAbout();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!aboutTrigger || !aboutPanel) return;
+        const target = e.target;
+        if (target instanceof Node) {
+          const clickedInside = aboutTrigger.contains(target) || aboutPanel.contains(target);
+          if (!clickedInside) closeAbout();
+        }
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeAbout();
       });
     }
   });
