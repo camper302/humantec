@@ -1,0 +1,45 @@
+---
+// [기능] Products 페이지 골격
+// [원리] PCB/부자재/Machine 카테고리 기반 필터 UI를 제공하고, 상세는 추후 content/lib 연동으로 확장
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const CATEGORIES = [
+  { id: "pcb", label: "PCB 材料" },
+  { id: "sub-materials", label: "副資材" },
+  { id: "machine", label: "Machine" },
+];
+---
+
+<BaseLayout lang="ja" title="HUMANTEC | Products" description="製品（PCB 材料/副資材/Machine）">
+  <main class="mx-auto w-full max-w-5xl px-6 py-16">
+    <header class="flex flex-col gap-3">
+      <p class="text-sm text-neutral-600">Products</p>
+      <h1 class="text-3xl font-semibold tracking-tight">製品</h1>
+      <p class="max-w-2xl text-neutral-700">
+        カテゴリー絞り込みベースの製品一覧骨格です。（データ連携は次の段階で対応）
+      </p>
+    </header>
+
+    <section class="mt-10 rounded-2xl border border-neutral-200 p-6">
+      <h2 class="text-sm font-medium text-neutral-600">カテゴリー</h2>
+      <div class="mt-3 flex flex-wrap gap-2">
+        {CATEGORIES.map((c) => (
+          <a
+            class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50"
+            href={`?category=${c.id}`}
+          >
+            {c.label}
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-6 grid gap-4">
+      <div class="rounded-2xl border border-neutral-200 p-8">
+        <h2 class="text-lg font-semibold">製品リスト</h2>
+        <p class="mt-2 text-neutral-700">選択したカテゴリーに応じて一覧を描画する予定です。</p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+

@@ -1,0 +1,35 @@
+---
+// [기능] About 통합 페이지 골격
+// [원리] CEO 인사말/연혁/오시는 길을 한 페이지 섹션으로 구성하고, 공통 메타/레이아웃은 BaseLayout으로 통일
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout lang="en" title="HUMANTEC | About" description="Company overview (CEO message, history, location)">
+  <main class="mx-auto w-full max-w-5xl px-6 py-16">
+    <header class="flex flex-col gap-3">
+      <p class="text-sm text-neutral-600">About</p>
+      <h1 class="text-3xl font-semibold tracking-tight">Company Overview</h1>
+      <p class="max-w-2xl text-neutral-700">
+        A single long-page skeleton for CEO message, history, and location.
+      </p>
+    </header>
+
+    <section class="mt-10 grid gap-6">
+      <div class="rounded-2xl border border-neutral-200 p-8">
+        <h2 class="text-lg font-semibold">CEO Message</h2>
+        <p class="mt-2 text-neutral-700">Content coming soon.</p>
+      </div>
+
+      <div class="rounded-2xl border border-neutral-200 p-8">
+        <h2 class="text-lg font-semibold">History</h2>
+        <p class="mt-2 text-neutral-700">Content coming soon.</p>
+      </div>
+
+      <div class="rounded-2xl border border-neutral-200 p-8">
+        <h2 class="text-lg font-semibold">Location</h2>
+        <p class="mt-2 text-neutral-700">We will connect map/address details here.</p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+

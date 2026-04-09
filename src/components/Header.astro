@@ -1,0 +1,352 @@
+---
+// @ts-nocheck
+// [기능] 전 페이지 공통 Header(GNB)
+// [원리] 현재 경로에서 locale(ko/ja/en)를 기준으로 내부 링크를 생성하고, 데스크탑은 드롭다운 UX/모바일은 Drawer UX로 전환
+const { lang = "ko" } = Astro.props;
+
+const SUPPORTED_LOCALES = ["ko", "ja", "en"];
+
+// [기능] locale 안전 보정
+// [원리] 허용된 locale만 통과시키고, 그 외는 기본 언어(ko)로 폴백
+/** @type {(value: string) => string} */
+const normalizeLang = (value) => (SUPPORTED_LOCALES.includes(value) ? value : "ko");
+
+// [기능] 경로에서 선행 locale 제거
+// [원리] /ko/xxx → /xxx 로 변환하여, 다른 언어로의 매핑 링크 생성에 활용
+/** @type {(pathname: string) => string} */
+const stripLeadingLocale = (pathname) => {
+  const path = pathname || "/";
+  const match = path.match(/^\/(ko|ja|en)(\/|$)/);
+  if (!match) return path;
+  const rest = path.replace(/^\/(ko|ja|en)/, "");
+  return rest === "" ? "/" : rest;
+};
+
+// [기능] 동일한 경로를 다른 언어 경로로 변환
+// [원리] 현재 pathname의 locale을 교체하여 /{locale}/... 형태를 보장
+/** @type {(locale: string, pathname: string) => string} */
+const toLocalePath = (locale, pathname) => {
+  const safeLocale = normalizeLang(locale);
+  const rest = stripLeadingLocale(pathname);
+  if (rest === "/") return `/${safeLocale}`;
+  return `/${safeLocale}${rest}`;
+};
+
+const currentPathname = Astro.url?.pathname || "/";
+const currentLang = normalizeLang(lang);
+
+const topMenu = {
+  about: { href: `/${currentLang}/about`, label: "About" },
+  support: { href: `/${currentLang}/support`, label: "Support" },
+};
+
+// [기능] Products 드롭다운 메뉴 구성
+// [원리] 향후 확장을 위해 상위/하위 구조로 분리하고, 데스크탑은 hover 기반 팝업으로 노출
+const productsMenu = {
+  href: `/${currentLang}/products`,
+  label: "Products",
+  items: [
+    { href: `/${currentLang}/products?category=pcb`, label: "PCB" },
+    { href: `/${currentLang}/products?category=sub-materials`, label: "부자재" },
+    { href: `/${currentLang}/products?category=machine`, label: "Machine" },
+  ],
+};
+
+const languageOptions = [
+  { locale: "ko", label: "한국어" },
+  { locale: "ja", label: "日本語" },
+  { locale: "en", label: "English" },
+].map((opt) => ({
+  ...opt,
+  href: toLocalePath(opt.locale, currentPathname),
+}));
+
+const currentLanguageOption =
+  languageOptions.find((o) => o.locale === currentLang) || languageOptions[0];
+---
+
+<header class="sticky top-0 z-50 border-b border-neutral-200 bg-white/85 backdrop-blur">
+  <div class="mx-auto flex h-14 w-full max-w-5xl items-center gap-3 px-4 sm:px-6">
+    <a
+      class="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm font-semibold tracking-tight text-neutral-950 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+      href={`/${currentLang}`}
+      aria-label="HUMANTEC 홈"
+    >
+      <span class="select-none">HUMANTEC</span>
+    </a>
+
+    <nav class="hidden flex-1 items-center justify-center md:flex" aria-label="주요 메뉴">
+      <div class="flex items-center gap-1 rounded-full border border-neutral-200 bg-white px-1 py-1">
+        <a
+          class="rounded-full px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+          href={topMenu.about.href}
+        >
+          {topMenu.about.label}
+        </a>
+
+        <div class="relative group">
+          <a
+            class="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+            href={productsMenu.href}
+            aria-haspopup="true"
+          >
+            <span>{productsMenu.label}</span>
+            <svg
+              class="mt-px opacity-70"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M7 10l5 5 5-5"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+
+          <div
+            class="pointer-events-none absolute left-1/2 top-full hidden w-56 -translate-x-1/2 pt-2 group-hover:block group-focus-within:block"
+          >
+            <div
+              class="pointer-events-auto overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)]"
+              role="menu"
+              aria-label="Products 하위 메뉴"
+            >
+              <div class="px-4 py-3">
+                <p class="text-xs font-medium text-neutral-600">Categories</p>
+              </div>
+              <div class="grid gap-1 px-2 pb-2">
+                {productsMenu.items.map((item) => (
+                  <a
+                    class="rounded-xl px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+                    href={item.href}
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a
+          class="rounded-full px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+          href={topMenu.support.href}
+        >
+          {topMenu.support.label}
+        </a>
+      </div>
+    </nav>
+
+    <div class="ml-auto hidden items-center md:flex" aria-label="언어 전환">
+      <details class="group relative">
+        <summary
+          class="inline-flex cursor-pointer list-none items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+          aria-label="언어 선택"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="opacity-70">
+            <path
+              d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Z"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+            <path
+              d="M3 12h18"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+            <path
+              d="M12 3c2.5 2.7 4 5.8 4 9s-1.5 6.3-4 9c-2.5-2.7-4-5.8-4-9s1.5-6.3 4-9Z"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+          </svg>
+          <span class="text-sm font-medium">{currentLanguageOption.locale.toUpperCase()}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="opacity-70">
+            <path
+              d="M7 10l5 5 5-5"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </summary>
+
+        <div
+          class="absolute right-0 top-full mt-2 w-44 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)]"
+        >
+          <div class="px-4 py-3">
+            <p class="text-xs font-medium text-neutral-600">Language</p>
+          </div>
+          <div class="grid gap-1 px-2 pb-2">
+            {languageOptions
+              .filter((o) => o.locale !== currentLang)
+              .map((o) => (
+                <a
+                  class="rounded-xl px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+                  href={o.href}
+                >
+                  <span class="font-medium">{o.locale.toUpperCase()}</span>
+                  <span class="ml-2 text-neutral-600">{o.label}</span>
+                </a>
+              ))}
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <button
+      class="inline-flex items-center justify-center rounded-md border border-neutral-200 bg-white px-2 py-2 text-sm text-neutral-700 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20 md:hidden"
+      type="button"
+      aria-label="메뉴 열기"
+      aria-expanded="false"
+      data-drawer-open
+    >
+      <span class="sr-only">Toggle menu</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
+
+</header>
+
+<script is:inline>
+  // [기능] 모바일 Drawer 메뉴 제어
+  // [원리] data-attribute로 오버레이/패널을 토글하고, ESC/오버레이 클릭으로 닫기 UX 제공
+  const openBtn = document.querySelector("[data-drawer-open]");
+  const closeBtn = document.querySelector("[data-drawer-close]");
+  const overlay = document.querySelector("[data-drawer-overlay]");
+  const drawer = document.querySelector("[data-drawer]");
+
+  function openDrawer() {
+    if (!drawer || !overlay || !openBtn) return;
+    overlay.classList.remove("hidden");
+    drawer.classList.remove("translate-x-full");
+    openBtn.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeDrawer() {
+    if (!drawer || !overlay || !openBtn) return;
+    overlay.classList.add("hidden");
+    drawer.classList.add("translate-x-full");
+    openBtn.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  if (openBtn && overlay && drawer) {
+    openBtn.addEventListener("click", openDrawer);
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeDrawer);
+  }
+  if (overlay) {
+    overlay.addEventListener("click", closeDrawer);
+  }
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDrawer();
+  });
+</script>
+
+<div class="fixed inset-0 z-60 hidden bg-black/30 md:hidden" data-drawer-overlay></div>
+<aside
+  class="fixed right-0 top-0 z-70 h-dvh w-[88vw] max-w-sm translate-x-full border-l border-neutral-200 bg-white shadow-2xl transition-transform duration-200 ease-out md:hidden"
+  data-drawer
+  aria-label="모바일 사이드 메뉴"
+>
+  <div class="flex h-14 items-center justify-between border-b border-neutral-200 px-4">
+    <p class="text-sm font-semibold tracking-tight">Menu</p>
+    <button
+      type="button"
+      class="inline-flex items-center justify-center rounded-md border border-neutral-200 bg-white px-2 py-2 text-sm text-neutral-700 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+      aria-label="메뉴 닫기"
+      data-drawer-close
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M6 6l12 12M18 6L6 18"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <div class="px-4 py-4">
+    <nav class="grid gap-2" aria-label="모바일 메뉴">
+      <a
+        class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+        href={topMenu.about.href}
+      >
+        {topMenu.about.label}
+      </a>
+
+      <div class="rounded-2xl border border-neutral-200 p-3">
+        <a
+          class="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+          href={productsMenu.href}
+        >
+          <span>{productsMenu.label}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="opacity-70">
+            <path
+              d="M7 10l5 5 5-5"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+        <div class="mt-2 grid gap-1">
+          {productsMenu.items.map((item) => (
+            <a
+              class="rounded-xl px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+              href={item.href}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <a
+        class="rounded-2xl border border-neutral-200 px-4 py-3 text-sm text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+        href={topMenu.support.href}
+      >
+        {topMenu.support.label}
+      </a>
+    </nav>
+
+    <div class="mt-6 rounded-2xl border border-neutral-200 p-3">
+      <p class="px-3 py-2 text-xs font-medium text-neutral-600">Language</p>
+      <div class="grid gap-1">
+        {languageOptions.map((o) => (
+          <a
+            class:list={[
+              "rounded-xl px-3 py-2 text-sm hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20",
+              o.locale === currentLang ? "bg-neutral-900 text-white" : "text-neutral-900",
+            ]}
+            href={o.href}
+            aria-current={o.locale === currentLang ? "page" : undefined}
+          >
+            <span class="font-medium">{o.locale.toUpperCase()}</span>
+            <span class:list={["ml-2", o.locale === currentLang ? "text-white/80" : "text-neutral-600"]}>
+              {o.label}
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</aside>
+

@@ -1,0 +1,29 @@
+---
+// [기능] Support 페이지 골격
+// [원리] Client Portal(로그인) 진입로로서 문의/자료실/지원 요청으로 이어지는 허브 역할 수행
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout lang="ja" title="HUMANTEC | Support" description="サポートおよび Client Portal 入口">
+  <main class="mx-auto w-full max-w-5xl px-6 py-16">
+    <header class="flex flex-col gap-3">
+      <p class="text-sm text-neutral-600">Support</p>
+      <h1 class="text-3xl font-semibold tracking-tight">サポート</h1>
+      <p class="max-w-2xl text-neutral-700">
+        Client Portal の入口ページ骨格です。（Auth/Supabase 連携は次の段階）
+      </p>
+    </header>
+
+    <section class="mt-10 grid gap-4 md:grid-cols-2">
+      <a class="rounded-2xl border border-neutral-200 p-8 hover:bg-neutral-50" href="#">
+        <h2 class="text-lg font-semibold">Client Portal</h2>
+        <p class="mt-2 text-neutral-700">ログイン後、資料とサポート機能を提供します。</p>
+      </a>
+      <a class="rounded-2xl border border-neutral-200 p-8 hover:bg-neutral-50" href="#">
+        <h2 class="text-lg font-semibold">お問い合わせ</h2>
+        <p class="mt-2 text-neutral-700">統合問い合わせフォームへ接続する予定です。</p>
+      </a>
+    </section>
+  </main>
+</BaseLayout>
+

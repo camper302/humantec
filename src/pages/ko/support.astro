@@ -1,0 +1,29 @@
+---
+// [기능] Support 페이지 골격
+// [원리] Client Portal(로그인) 진입로로서 문의/자료실/지원 요청으로 이어지는 허브 역할 수행
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout lang="ko" title="휴먼텍 | Support" description="휴먼텍 고객 지원 및 Client Portal 진입">
+  <main class="mx-auto w-full max-w-5xl px-6 py-16">
+    <header class="flex flex-col gap-3">
+      <p class="text-sm text-neutral-600">Support</p>
+      <h1 class="text-3xl font-semibold tracking-tight">고객 지원</h1>
+      <p class="max-w-2xl text-neutral-700">
+        Client Portal 진입로 페이지 골격입니다. (Auth/Supabase 연동은 다음 단계)
+      </p>
+    </header>
+
+    <section class="mt-10 grid gap-4 md:grid-cols-2">
+      <a class="rounded-2xl border border-neutral-200 p-8 hover:bg-neutral-50" href="#">
+        <h2 class="text-lg font-semibold">Client Portal</h2>
+        <p class="mt-2 text-neutral-700">로그인 후 기술 자료실 및 고객 지원 기능을 제공합니다.</p>
+      </a>
+      <a class="rounded-2xl border border-neutral-200 p-8 hover:bg-neutral-50" href="#">
+        <h2 class="text-lg font-semibold">문의하기</h2>
+        <p class="mt-2 text-neutral-700">통합 문의 폼으로 연결할 예정입니다.</p>
+      </a>
+    </section>
+  </main>
+</BaseLayout>
+
