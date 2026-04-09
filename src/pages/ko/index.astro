@@ -11,14 +11,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout lang="ko" title="휴먼텍" description="High-Tech Materials & Equipment Partner for Future Electronics">
-  <main class="mx-auto w-full max-w-6xl px-6 py-6 sm:py-8">
-    {/* [기능] 섹션 화면 핏(Full-fit) */}
+  <main class="mx-auto w-full max-w-6xl px-6 py-0">
+    {/* [기능] 첫 화면(Above the fold) 완전 분리 */}
     {/* [원리]
-      - 헤더 높이(약 56px)를 고려해 각 섹션은 최소 높이를 dvh 기준으로 확보
-      - 모바일/태블릿에서 “한 화면에 꽉 차는” 인상을 주도록 섹션 내부는 중앙 정렬 중심으로 구성 */}
-    <div class="h-0 w-0" style="--section-min: calc(100dvh - 56px);"></div>
+      - 첫 화면에는 Hero만 보이도록, Hero를 (뷰포트 - 헤더 높이) 만큼 정확히 채운다
+      - 다음 섹션(3대 사업 분야)은 스크롤 이후에만 보이게 하여 “비즈니스 액션”에 집중도를 만든다 */}
     <!-- Section 0 -->
-    <section class="relative flex min-h-(--section-min) items-center overflow-hidden rounded-3xl border border-neutral-200 bg-white">
+    <section class="relative flex min-h-[calc(100dvh-56px)] items-center overflow-hidden rounded-3xl border border-neutral-200 bg-white">
       <div class="pointer-events-none absolute inset-0">
         <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_20%,rgba(0,0,0,0.06),transparent_65%)]"></div>
         <div class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.15),rgba(255,255,255,1))]"></div>
@@ -26,7 +25,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         <div class="absolute -left-24 bottom-8 h-72 w-72 rounded-full bg-neutral-200/40 blur-2xl"></div>
       </div>
 
-      <div class="relative grid w-full gap-8 px-8 py-12 sm:px-10 sm:py-14 lg:grid-cols-12">
+      <div class="relative grid w-full gap-8 px-[clamp(20px,4vw,40px)] py-[clamp(28px,6vh,56px)] lg:grid-cols-12">
         <div class="lg:col-span-7">
           <p class="text-sm text-neutral-600">HUMANTEC</p>
           <h1 class="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">
@@ -38,16 +37,16 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
           <div class="mt-6 flex flex-wrap items-center gap-3">
             <a
-              class="inline-flex items-center justify-center rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
-              href="/ko/products"
-            >
-              제품군 살펴보기
-            </a>
-            <a
-              class="inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white px-5 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+              class="inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white px-5 py-2.5 text-sm font-medium text-neutral-900 transition-colors hover:border-neutral-300 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
               href="/ko/about"
             >
               About Us
+            </a>
+            <a
+              class="inline-flex items-center justify-center rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
+              href="/ko/products"
+            >
+              제품군 살펴보기
             </a>
           </div>
         </div>
@@ -66,7 +65,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     </section>
 
     <!-- Section 1 -->
-    <section class="mt-8 flex min-h-(--section-min) items-center">
+    <section class="mt-12 flex min-h-[calc(100dvh-56px)] items-center">
       <div class="w-full">
       <header class="flex flex-col gap-2">
         <p class="text-sm text-neutral-600">Core Business Fields</p>
@@ -140,7 +139,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     </section>
 
     <!-- Section 2 -->
-    <section class="mt-8 flex min-h-(--section-min) items-center">
+    <section id="partners" class="mt-12 flex min-h-[calc(100dvh-56px)] items-center scroll-mt-24">
       <div class="w-full">
       <header class="flex flex-col gap-2">
         <p class="text-sm text-neutral-600">Authority</p>
@@ -170,7 +169,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     </section>
 
     <!-- Section 3 -->
-    <section id="contact" class="mt-8 flex min-h-(--section-min) items-center scroll-mt-24">
+    <section id="contact" class="mt-12 flex min-h-[calc(100dvh-56px)] items-center scroll-mt-24">
       <div class="w-full">
       <header class="flex flex-col gap-2">
         <p class="text-sm text-neutral-600">Focus on Action</p>
@@ -276,7 +275,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     </section>
 
     <!-- Section 4 -->
-    <section id="office" class="mt-8 flex min-h-(--section-min) items-center scroll-mt-24">
+    <section id="office" class="mt-12 flex min-h-[calc(100dvh-56px)] items-center scroll-mt-24">
       <div class="w-full">
       <header class="flex flex-col gap-2">
         <p class="text-sm text-neutral-600">Location</p>
@@ -313,7 +312,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       </div>
     </section>
 
-    <footer class="mt-8 rounded-3xl border border-neutral-200 bg-white px-8 py-10">
+    <footer class="mt-12 rounded-3xl border border-neutral-200 bg-white px-8 py-10">
       <div class="grid gap-8 md:grid-cols-3">
         <div>
           <p class="text-sm font-semibold tracking-tight text-neutral-900">HUMANTEC</p>
