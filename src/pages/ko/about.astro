@@ -1,33 +1,164 @@
 ---
-// [기능] About 통합 페이지 골격
-// [원리] CEO 인사말/연혁/오시는 길을 한 페이지 섹션으로 구성하고, 공통 메타/레이아웃은 BaseLayout으로 통일
+// [기능] About Us 단일 페이지 스토리텔링(롱페이지)
+// [원리]
+// - 사용자가 스크롤로 자연스럽게 서사를 따라가도록(CEO → 연혁 → 경영이념 → 오시는 길) 섹션을 세로로 배치
+// - 상단에 앵커 링크(목차)를 제공해 특정 섹션으로 즉시 점프 가능
+// - 섹션은 1px 테두리/화이트 배경을 기본으로, 내부는 Bento Grid 철학(명확한 구획)으로 정보 밀도를 제어
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout lang="ko" title="휴먼텍 | About" description="휴먼텍 회사 소개 (CEO 인사말, 연혁, 오시는 길)">
-  <main class="mx-auto w-full max-w-5xl px-6 py-16">
+<BaseLayout lang="ko" title="휴먼텍 | About Us" description="휴먼텍 회사 소개 (CEO 인사말, 연혁, 경영이념, 오시는 길)">
+  <main class="mx-auto w-full max-w-5xl px-6 py-14 sm:py-16">
     <header class="flex flex-col gap-3">
-      <p class="text-sm text-neutral-600">About</p>
-      <h1 class="text-3xl font-semibold tracking-tight">회사 소개</h1>
+      <p class="text-sm text-neutral-600">About Us</p>
+      <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">신뢰로 증명하는 파트너십</h1>
       <p class="max-w-2xl text-neutral-700">
-        CEO 인사말, 연혁, 오시는 길을 통합한 롱페이지 골격입니다.
+        휴먼텍의 이야기와 운영 철학을 한 흐름으로 읽을 수 있도록 구성했습니다.
       </p>
     </header>
 
-    <section class="mt-10 grid gap-6">
-      <div class="rounded-2xl border border-neutral-200 p-8">
-        <h2 class="text-lg font-semibold">CEO 인사말</h2>
-        <p class="mt-2 text-neutral-700">내용을 준비 중입니다.</p>
+    <div class="mt-8 rounded-2xl border border-neutral-200 bg-white p-3 sm:p-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50" href="#ceo">
+          CEO 인사말
+        </a>
+        <a class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50" href="#history">
+          연혁
+        </a>
+        <a
+          class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50"
+          href="#philosophy"
+        >
+          경영이념
+        </a>
+        <a class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50" href="#location">
+          오시는 길
+        </a>
       </div>
+    </div>
 
-      <div class="rounded-2xl border border-neutral-200 p-8">
-        <h2 class="text-lg font-semibold">연혁</h2>
-        <p class="mt-2 text-neutral-700">내용을 준비 중입니다.</p>
+    <section id="ceo" class="mt-10 scroll-mt-24">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Chapter 01</p>
+          <h2 class="text-xl font-semibold tracking-tight">CEO 인사말</h2>
+          <p class="max-w-2xl text-neutral-700">
+            메시지는 “무엇을 팔 것인가”보다 “어떻게 신뢰를 쌓을 것인가”를 먼저 말해야 합니다.
+          </p>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">한 줄 요약</p>
+            <p class="mt-2 text-sm text-neutral-700">기술 영업의 본질은 문제를 정확히 정의하고 끝까지 책임지는 것입니다.</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">핵심 약속</p>
+            <ul class="mt-2 grid gap-2 text-sm text-neutral-700">
+              <li class="flex gap-2">
+                <span class="mt-1 h-1.5 w-1.5 rounded-full bg-neutral-400"></span>
+                <span>정보의 투명성</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="mt-1 h-1.5 w-1.5 rounded-full bg-neutral-400"></span>
+                <span>정확한 납기와 커뮤니케이션</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="mt-1 h-1.5 w-1.5 rounded-full bg-neutral-400"></span>
+                <span>품질 이슈의 빠른 원인 규명</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="rounded-2xl border border-neutral-200 p-8">
-        <h2 class="text-lg font-semibold">오시는 길</h2>
-        <p class="mt-2 text-neutral-700">지도/주소 정보를 연결할 예정입니다.</p>
+    <section id="history" class="mt-6 scroll-mt-24">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Chapter 02</p>
+          <h2 class="text-xl font-semibold tracking-tight">연혁</h2>
+          <p class="max-w-2xl text-neutral-700">
+            성장의 순간을 “연도”가 아니라 “문제 해결의 기록”으로 남깁니다.
+          </p>
+        </div>
+
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">초기</p>
+            <p class="mt-2 text-sm text-neutral-700">핵심 파트너 라인업 구축</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">확장</p>
+            <p class="mt-2 text-sm text-neutral-700">제품군/고객사 확장 및 운영 표준화</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">현재</p>
+            <p class="mt-2 text-sm text-neutral-700">데이터 기반 지원 체계 고도화</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="philosophy" class="mt-6 scroll-mt-24">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Chapter 03</p>
+          <h2 class="text-xl font-semibold tracking-tight">경영이념</h2>
+          <p class="max-w-2xl text-neutral-700">
+            의사결정 기준을 문장으로 고정해, 규모가 커져도 품질과 속도를 잃지 않게 합니다.
+          </p>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">정확</p>
+            <p class="mt-2 text-sm text-neutral-700">근거 기반의 제안과 검증</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">일관</p>
+            <p class="mt-2 text-sm text-neutral-700">상황이 변해도 원칙은 유지</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">책임</p>
+            <p class="mt-2 text-sm text-neutral-700">결과에 대한 소유권</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="location" class="mt-6 scroll-mt-24">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Chapter 04</p>
+          <h2 class="text-xl font-semibold tracking-tight">오시는 길</h2>
+          <p class="max-w-2xl text-neutral-700">주소/지도 연동은 다음 단계에서 연결합니다.</p>
+        </div>
+
+        <div class="mt-6 grid gap-4 lg:grid-cols-5">
+          <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-3">
+            <p class="text-sm font-medium text-neutral-900">지도</p>
+            <div class="mt-3 aspect-video w-full rounded-xl border border-dashed border-neutral-200 bg-neutral-50"></div>
+            <p class="mt-3 text-sm text-neutral-700">지도 위젯 영역 (예: Google/Naver/Kakao)</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-2">
+            <p class="text-sm font-medium text-neutral-900">연락처</p>
+            <dl class="mt-3 grid gap-3 text-sm">
+              <div>
+                <dt class="text-neutral-600">주소</dt>
+                <dd class="mt-1 text-neutral-900">내용을 준비 중입니다.</dd>
+              </div>
+              <div>
+                <dt class="text-neutral-600">전화</dt>
+                <dd class="mt-1 text-neutral-900">내용을 준비 중입니다.</dd>
+              </div>
+              <div>
+                <dt class="text-neutral-600">이메일</dt>
+                <dd class="mt-1 text-neutral-900">내용을 준비 중입니다.</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
       </div>
     </section>
   </main>

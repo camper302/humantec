@@ -1,33 +1,142 @@
 ---
-// [기능] About 통합 페이지 골격
-// [원리] CEO 인사말/연혁/오시는 길을 한 페이지 섹션으로 구성하고, 공통 메타/레이아웃은 BaseLayout으로 통일
+// [기능] About Us 단일 페이지 스토리텔링(롱페이지)
+// [원리]
+// - 사용자가 스크롤로 자연스럽게 서사를 따라가도록(CEO → 연혁 → 경영이념 → 오시는 길) 섹션을 세로로 배치
+// - 상단에 앵커 링크(목차)를 제공해 특정 섹션으로 즉시 점프 가능
+// - 섹션은 1px 테두리/화이트 배경을 기본으로, 내부는 Bento Grid 철학(명확한 구획)으로 정보 밀도를 제어
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout lang="ja" title="HUMANTEC | About" description="会社概要（CEOメッセージ、沿革、アクセス）">
-  <main class="mx-auto w-full max-w-5xl px-6 py-16">
+<BaseLayout lang="ja" title="HUMANTEC | About Us" description="CEOメッセージ、沿革、経営理念、アクセス">
+  <main class="mx-auto w-full max-w-5xl px-6 py-14 sm:py-16">
     <header class="flex flex-col gap-3">
-      <p class="text-sm text-neutral-600">About</p>
-      <h1 class="text-3xl font-semibold tracking-tight">会社概要</h1>
+      <p class="text-sm text-neutral-600">About Us</p>
+      <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">信頼を基盤に、精度で届ける</h1>
       <p class="max-w-2xl text-neutral-700">
-        CEO メッセージ、沿革、アクセスを統合したロングページの骨格です。
+        スクロールで自然に読み進められる単一ロングページ構成です。
       </p>
     </header>
 
-    <section class="mt-10 grid gap-6">
-      <div class="rounded-2xl border border-neutral-200 p-8">
-        <h2 class="text-lg font-semibold">CEO メッセージ</h2>
-        <p class="mt-2 text-neutral-700">準備中です。</p>
+    <div class="mt-8 rounded-2xl border border-neutral-200 bg-white p-3 sm:p-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50" href="#ceo">
+          CEO メッセージ
+        </a>
+        <a class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50" href="#history">
+          沿革
+        </a>
+        <a class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50" href="#philosophy">
+          経営理念
+        </a>
+        <a class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50" href="#location">
+          アクセス
+        </a>
       </div>
+    </div>
 
-      <div class="rounded-2xl border border-neutral-200 p-8">
-        <h2 class="text-lg font-semibold">沿革</h2>
-        <p class="mt-2 text-neutral-700">準備中です。</p>
+    <section id="ceo" class="mt-10 scroll-mt-24">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Chapter 01</p>
+          <h2 class="text-xl font-semibold tracking-tight">CEO メッセージ</h2>
+          <p class="max-w-2xl text-neutral-700">準備中です。</p>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">要約</p>
+            <p class="mt-2 text-sm text-neutral-700">準備中です。</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">約束</p>
+            <p class="mt-2 text-sm text-neutral-700">準備中です。</p>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="rounded-2xl border border-neutral-200 p-8">
-        <h2 class="text-lg font-semibold">アクセス</h2>
-        <p class="mt-2 text-neutral-700">地図/住所情報を接続する予定です。</p>
+    <section id="history" class="mt-6 scroll-mt-24">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Chapter 02</p>
+          <h2 class="text-xl font-semibold tracking-tight">沿革</h2>
+          <p class="max-w-2xl text-neutral-700">準備中です。</p>
+        </div>
+
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">初期</p>
+            <p class="mt-2 text-sm text-neutral-700">準備中です。</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">拡張</p>
+            <p class="mt-2 text-sm text-neutral-700">準備中です。</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">現在</p>
+            <p class="mt-2 text-sm text-neutral-700">準備中です。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="philosophy" class="mt-6 scroll-mt-24">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Chapter 03</p>
+          <h2 class="text-xl font-semibold tracking-tight">経営理念</h2>
+          <p class="max-w-2xl text-neutral-700">準備中です。</p>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">正確</p>
+            <p class="mt-2 text-sm text-neutral-700">準備中です。</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">一貫</p>
+            <p class="mt-2 text-sm text-neutral-700">準備中です。</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="text-sm font-medium text-neutral-900">責任</p>
+            <p class="mt-2 text-sm text-neutral-700">準備中です。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="location" class="mt-6 scroll-mt-24">
+      <div class="rounded-2xl border border-neutral-200 bg-white p-8">
+        <div class="flex flex-col gap-2">
+          <p class="text-xs font-medium text-neutral-600">Chapter 04</p>
+          <h2 class="text-xl font-semibold tracking-tight">アクセス</h2>
+          <p class="max-w-2xl text-neutral-700">地図/住所情報を接続する予定です。</p>
+        </div>
+
+        <div class="mt-6 grid gap-4 lg:grid-cols-5">
+          <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-3">
+            <p class="text-sm font-medium text-neutral-900">地図</p>
+            <div class="mt-3 aspect-video w-full rounded-xl border border-dashed border-neutral-200 bg-neutral-50"></div>
+            <p class="mt-3 text-sm text-neutral-700">地図ウィジェット領域</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-2">
+            <p class="text-sm font-medium text-neutral-900">連絡先</p>
+            <dl class="mt-3 grid gap-3 text-sm">
+              <div>
+                <dt class="text-neutral-600">住所</dt>
+                <dd class="mt-1 text-neutral-900">準備中です。</dd>
+              </div>
+              <div>
+                <dt class="text-neutral-600">電話</dt>
+                <dd class="mt-1 text-neutral-900">準備中です。</dd>
+              </div>
+              <div>
+                <dt class="text-neutral-600">メール</dt>
+                <dd class="mt-1 text-neutral-900">準備中です。</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
       </div>
     </section>
   </main>

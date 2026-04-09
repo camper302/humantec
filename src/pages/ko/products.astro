@@ -1,45 +1,174 @@
 ---
-// [기능] Products 페이지 골격
-// [원리] PCB/부자재/Machine 카테고리 기반 필터 UI를 제공하고, 상세는 추후 content/lib 연동으로 확장
+// [기능] Products 단일 제품 포커스 뷰(Single-Item Focus)
+// [원리]
+// - 한 화면에 “하나의 제품군”만 크게 보여주어, 기술 사양/특징에 집중할 수 있게 설계
+// - 상단 탭 전환으로 제품군(PCB/부자재/Machine)을 즉시 변경 (목록 나열 대신 집중형)
+// - Bento Grid 구획으로 스펙/특징/적용 분야를 정리해, 데이터 중심 UI를 유지
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const CATEGORIES = [
-  { id: "pcb", label: "PCB 재료" },
-  { id: "sub-materials", label: "부자재" },
-  { id: "machine", label: "Machine" },
+const PRODUCT_GROUPS = [
+  {
+    id: "pcb",
+    label: "PCB 재료",
+    name: "High Reliability PCB Material",
+    subtitle: "고신뢰성 라미네이트/프리프레그 중심",
+    highlights: ["열 안정성", "공정 적합성", "품질 트레이서빌리티"],
+    specs: [
+      { k: "두께", v: "내용을 준비 중입니다." },
+      { k: "유전율(Dk)", v: "내용을 준비 중입니다." },
+      { k: "손실(Df)", v: "내용을 준비 중입니다." },
+      { k: "내열성", v: "내용을 준비 중입니다." },
+    ],
+    applications: ["고다층 PCB", "고속 신호", "산업용 장비"],
+  },
+  {
+    id: "sub-materials",
+    label: "부자재",
+    name: "Process Sub Materials",
+    subtitle: "생산 효율과 품질 안정화를 위한 부자재",
+    highlights: ["공정 안정성", "수급 안정성", "비용 최적화"],
+    specs: [
+      { k: "규격", v: "내용을 준비 중입니다." },
+      { k: "호환 공정", v: "내용을 준비 중입니다." },
+      { k: "패키징", v: "내용을 준비 중입니다." },
+      { k: "리드타임", v: "내용을 준비 중입니다." },
+    ],
+    applications: ["라인 운영", "품질 개선", "수율 관리"],
+  },
+  {
+    id: "machine",
+    label: "Machine",
+    name: "Equipment / Machine",
+    subtitle: "현장 적용을 고려한 장비 라인업",
+    highlights: ["안전", "유지보수성", "생산성"],
+    specs: [
+      { k: "전원", v: "내용을 준비 중입니다." },
+      { k: "치수", v: "내용을 준비 중입니다." },
+      { k: "처리량", v: "내용을 준비 중입니다." },
+      { k: "지원", v: "내용을 준비 중입니다." },
+    ],
+    applications: ["자동화", "품질 검사", "공정 장비"],
+  },
 ];
 ---
 
 <BaseLayout lang="ko" title="휴먼텍 | Products" description="휴먼텍 제품 (PCB 재료/부자재/Machine)">
-  <main class="mx-auto w-full max-w-5xl px-6 py-16">
+  <main class="mx-auto w-full max-w-5xl px-6 py-14 sm:py-16">
     <header class="flex flex-col gap-3">
       <p class="text-sm text-neutral-600">Products</p>
-      <h1 class="text-3xl font-semibold tracking-tight">제품</h1>
+      <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">제품</h1>
       <p class="max-w-2xl text-neutral-700">
-        카테고리 필터링 기반의 제품 목록 골격입니다. (데이터 연동은 다음 단계에서 진행)
+        한 화면에 하나의 제품군만 집중해서 보여주는 데이터 중심 UI입니다.
       </p>
     </header>
 
-    <section class="mt-10 rounded-2xl border border-neutral-200 p-6">
-      <h2 class="text-sm font-medium text-neutral-600">카테고리</h2>
-      <div class="mt-3 flex flex-wrap gap-2">
-        {CATEGORIES.map((c) => (
-          <a
-            class="rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-50"
-            href={`?category=${c.id}`}
+    <section class="mt-8 rounded-2xl border border-neutral-200 bg-white p-2 sm:p-3" aria-label="제품군 탭">
+      <div class="flex flex-wrap gap-1">
+        {PRODUCT_GROUPS.map((g, idx) => (
+          <button
+            class:list={[
+              "rounded-full px-3 py-2 text-sm font-medium transition-colors",
+              idx === 0 ? "bg-neutral-900 text-white" : "text-neutral-800 hover:bg-neutral-50",
+            ]}
+            type="button"
+            data-tab-trigger
+            data-tab-id={g.id}
+            aria-selected={idx === 0 ? "true" : "false"}
           >
-            {c.label}
-          </a>
+            {g.label}
+          </button>
         ))}
       </div>
     </section>
 
-    <section class="mt-6 grid gap-4">
-      <div class="rounded-2xl border border-neutral-200 p-8">
-        <h2 class="text-lg font-semibold">제품 리스트</h2>
-        <p class="mt-2 text-neutral-700">필터 선택에 따라 목록이 렌더링되도록 확장 예정입니다.</p>
-      </div>
+    <section class="mt-6 grid gap-6" aria-label="제품 상세">
+      {PRODUCT_GROUPS.map((g, idx) => (
+        <div
+          class:list={["rounded-2xl border border-neutral-200 bg-white p-8", idx === 0 ? "block" : "hidden"]}
+          data-tab-panel
+          data-tab-id={g.id}
+        >
+          <div class="flex flex-col gap-2">
+            <p class="text-xs font-medium text-neutral-600">{g.label}</p>
+            <h2 class="text-2xl font-semibold tracking-tight">{g.name}</h2>
+            <p class="max-w-2xl text-neutral-700">{g.subtitle}</p>
+          </div>
+
+          <div class="mt-6 grid gap-4 lg:grid-cols-5">
+            <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-3">
+              <p class="text-sm font-medium text-neutral-900">주요 특징</p>
+              <ul class="mt-3 grid gap-2 text-sm text-neutral-700 sm:grid-cols-2">
+                {g.highlights.map((h) => (
+                  <li class="flex gap-2">
+                    <span class="mt-1 h-1.5 w-1.5 rounded-full bg-neutral-400"></span>
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div class="mt-6 grid gap-3 sm:grid-cols-2">
+                {g.specs.map((s) => (
+                  <div class="rounded-2xl border border-neutral-200 p-4">
+                    <p class="text-xs font-medium text-neutral-600">{s.k}</p>
+                    <p class="mt-2 text-sm text-neutral-900">{s.v}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="rounded-2xl border border-neutral-200 p-6 lg:col-span-2">
+              <p class="text-sm font-medium text-neutral-900">적용 분야</p>
+              <div class="mt-3 grid gap-2">
+                {g.applications.map((a) => (
+                  <div class="rounded-xl border border-neutral-200 px-3 py-2 text-sm text-neutral-800">
+                    {a}
+                  </div>
+                ))}
+              </div>
+
+              <div class="mt-6 rounded-2xl border border-dashed border-neutral-200 bg-neutral-50 p-4">
+                <p class="text-sm text-neutral-700">
+                  제품 이미지/도면/데이터시트 영역 (다음 단계에서 content/lib/Supabase로 연결)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </section>
   </main>
 </BaseLayout>
+
+<script is:inline>
+  // [기능] Products 탭 전환
+  // [원리] data-attribute 기반으로 trigger/panel을 매칭해, 선택된 제품군만 노출(단일 포커스)하고 aria 상태를 갱신
+  window.addEventListener("DOMContentLoaded", () => {
+    const triggers = Array.from(document.querySelectorAll("[data-tab-trigger]"));
+    const panels = Array.from(document.querySelectorAll("[data-tab-panel]"));
+
+    function setActive(id) {
+      triggers.forEach((t) => {
+        const isActive = t.getAttribute("data-tab-id") === id;
+        t.setAttribute("aria-selected", String(isActive));
+        t.classList.toggle("bg-neutral-900", isActive);
+        t.classList.toggle("text-white", isActive);
+        t.classList.toggle("text-neutral-800", !isActive);
+      });
+
+      panels.forEach((p) => {
+        const isActive = p.getAttribute("data-tab-id") === id;
+        p.classList.toggle("hidden", !isActive);
+        p.classList.toggle("block", isActive);
+      });
+    }
+
+    triggers.forEach((t) => {
+      t.addEventListener("click", () => {
+        const id = t.getAttribute("data-tab-id");
+        if (!id) return;
+        setActive(id);
+      });
+    });
+  });
+</script>
 
