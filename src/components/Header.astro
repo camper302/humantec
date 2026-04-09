@@ -280,6 +280,11 @@ const currentLanguageOption =
       </details>
     </div>
 
+    {/* [기능] 모바일 상단 언어 전환(드롭다운) */}
+    {/* [원리]
+      - Drawer를 열지 않아도 즉시 언어 변경이 가능해야 하므로, 햄버거 버튼 왼쪽에 배치
+      - details/summary를 사용해 JS 없이도 열림/닫힘이 안정적으로 동작(접근성 포함)
+      - 현재 경로를 기준으로 locale만 교체한 링크(toLocalePath)로 “같은 페이지의 다른 언어 버전”으로 이동 */}
     <div class="ml-auto flex items-center md:hidden" aria-label="언어 전환 (모바일)">
       <details class="group relative">
         <summary
@@ -451,7 +456,7 @@ const currentLanguageOption =
       </a>
     </nav>
 
-    <details class="mt-6 rounded-2xl border border-neutral-200 p-3">
+    <!-- <details class="mt-6 rounded-2xl border border-neutral-200 p-3">
       <summary
         class="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-2 text-sm font-medium text-neutral-900 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-900/20"
         aria-label="언어 선택 펼치기"
@@ -487,7 +492,7 @@ const currentLanguageOption =
           </a>
         ))}
       </div>
-    </details>
+    </details> -->
   </div>
 </aside>
 
